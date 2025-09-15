@@ -5,7 +5,7 @@
   "description": "A cli tool to create tax reports for German tax declarations for IBKR trading reports.",
   "main": "dist/index.js",
   "bin": {
-    "ibkr-german-tax-report": "./dist/cli.js"
+    "ibkr-german-tax-report": "dist/cli.js"
   },
   "files": [
     "dist",
