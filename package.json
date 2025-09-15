@@ -41,9 +41,9 @@
   "devDependencies": {
     "@anthropic-ai/claude-code": "^1.0.113",
     "@biomejs/biome": "^2.2.4",
+    "@changesets/cli": "^2.29.7",
     "@types/node": "^24.4.0",
     "@vitest/ui": "^3.2.4",
-    "changesets": "^1.0.2",
     "typescript": "^5.9.2",
     "vite": "^7.1.5",
     "vitest": "^3.2.4"
