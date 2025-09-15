@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { calculateGermanTax } from "./calculator";
@@ -7,32 +7,34 @@ import { parseReport } from "./parser";
 describe("calculateGermanTax", () => {
   const testCases = getAllTestCases();
 
-  testCases.forEach(({ reportPath, expectedPath, parsedJsonPath, baseName, folder }) => {
-    it(`should calculate correctly for ${baseName} (${folder})`, () => {
-      const expectedData = JSON.parse(readFileSync(expectedPath, "utf-8"));
+  testCases.forEach(
+    ({ reportPath, expectedPath, parsedJsonPath, baseName, folder }) => {
+      it(`should calculate correctly for ${baseName} (${folder})`, () => {
+        const expectedData = JSON.parse(readFileSync(expectedPath, "utf-8"));
 
-      // Parse the report and calculate tax
-      const reportContent = readFileSync(reportPath, "utf-8");
-      const parsedData = parseReport(reportContent);
-      const result = calculateGermanTax(parsedData);
+        // Parse the report and calculate tax
+        const reportContent = readFileSync(reportPath, "utf-8");
+        const parsedData = parseReport(reportContent);
+        const result = calculateGermanTax(parsedData);
 
-      // Explicitly write the parsed report as JSON for inspection
-      writeFileSync(
-        parsedJsonPath,
-        JSON.stringify(parsedData.parsedReport, null, 2),
-      );
+        // Explicitly write the parsed report as JSON for inspection
+        writeFileSync(
+          parsedJsonPath,
+          JSON.stringify(parsedData.parsedReport, null, 2),
+        );
 
-      expect(result.line7).toBe(parseFloat(expectedData["7"]));
-      expect(result.line37).toBe(parseFloat(expectedData["37"]));
-      expect(result.line40).toBe(parseFloat(expectedData["40"]));
+        expect(result.line7).toBe(parseFloat(expectedData["7"]));
+        expect(result.line37).toBe(parseFloat(expectedData["37"]));
+        expect(result.line40).toBe(parseFloat(expectedData["40"]));
 
-      // Verify that parsed report structure is included
-      expect(parsedData.parsedReport).toBeDefined();
-      expect(parsedData.parsedReport?.dividends).toBeDefined();
-      expect(parsedData.parsedReport?.withholdingTax).toBeDefined();
-      expect(parsedData.parsedReport?.metadata).toBeDefined();
-    });
-  });
+        // Verify that parsed report structure is included
+        expect(parsedData.parsedReport).toBeDefined();
+        expect(parsedData.parsedReport?.dividends).toBeDefined();
+        expect(parsedData.parsedReport?.withholdingTax).toBeDefined();
+        expect(parsedData.parsedReport?.metadata).toBeDefined();
+      });
+    },
+  );
 });
 
 // Find all CSV files in both real-reports and test-reports folders

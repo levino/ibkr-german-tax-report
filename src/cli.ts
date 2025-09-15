@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
-import { readFileSync, readdirSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { Command } from "commander";
-import inquirer from "inquirer";
 import chalk from "chalk";
 import Table from "cli-table3";
-import { parseReport } from "./parser.ts";
+import { Command } from "commander";
+import inquirer from "inquirer";
 import { calculateGermanTax } from "./calculator.ts";
-import type { IBKRData, GermanTaxCalculation } from "./types.ts";
+import { parseReport } from "./parser.ts";
+import type { GermanTaxCalculation, IBKRData } from "./types.ts";
 
 const program = new Command();
 

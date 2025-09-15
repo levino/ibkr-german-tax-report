@@ -118,6 +118,5 @@ function splitCSVLine(line: string): string[] {
   return result.map((col) => col.replace(/^"|"$/g, ""));
 }
 
-
 // Keep old function name for backward compatibility
 export const parseCSV = parseReport;
