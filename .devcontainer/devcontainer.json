@@ -1,0 +1,32 @@
+{
+  "name": "Node.js & TypeScript",
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {}
+  },
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "workspaceFolder": "/workspace",
+  "postCreateCommand": "npm install",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "unifiedjs.vscode-mdx",
+        "streetsidesoftware.code-spell-checker",
+        "astro-build.astro-vscode",
+        "bradlc.vscode-tailwindcss",
+        "streetsidesoftware.code-spell-checker-german",
+        "GitHub.vscode-pull-request-github",
+        "biomejs.biome",
+        "Anthropic.claude-code"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "[astro]": {
+          "editor.defaultFormatter": "astro-build.astro-vscode"
+        }
+      }
+    }
+  }
+}

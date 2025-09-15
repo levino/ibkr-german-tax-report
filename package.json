@@ -1,0 +1,33 @@
+{
+  "name": "ibkr-german-tax-report",
+  "version": "0.0.1",
+  "description": "A cli tool to create tax reports for German tax declarations for IBKR trading reports.",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "lint": "biome check .",
+    "claude": "claude-code --dangerously-skip-permissions"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/levino/ibkr-german-tax-report.git"
+  },
+  "author": "Levin Keller",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/levino/ibkr-german-tax-report/issues"
+  },
+  "homepage": "https://github.com/levino/ibkr-german-tax-report#readme",
+  "devDependencies": {
+    "@anthropic-ai/claude-code": "^1.0.113",
+    "@biomejs/biome": "^2.2.4",
+    "@types/node": "^24.4.0",
+    "@vitest/ui": "^3.2.4",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.5",
+    "vitest": "^3.2.4"
+  }
+}

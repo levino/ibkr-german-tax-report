@@ -1,0 +1,20 @@
+Statement,Header,Field Name,Field Value
+Statement,Data,Title,Activity Statement
+Statement,Data,Period,"January 1, 2023 - December 31, 2023"
+Statement,Data,WhenGenerated,"2023-12-31, 23:59:59 EST"
+Account Information,Header,Field Name,Field Value
+Account Information,Data,Account,T9876543
+Dividends,Header,Currency,Date,Description,Amount
+Dividends,Data,EUR,2023-03-10,TECH(US12345TECH67) Cash Dividend EUR 1.75 per Share (Ordinary Dividend),87.5
+Dividends,Data,EUR,2023-09-22,UTIL(DE000UTIL9999) Cash Dividend EUR 0.90 per Share (Ordinary Dividend),45
+Dividends,Data,EUR,2023-12-05,BANK(GB00BANK8888) Cash Dividend EUR 3.20 per Share (Ordinary Dividend),160
+Dividends,Data,Total,,,292.5
+Withholding Tax,Header,Currency,Date,Description,Amount,Code
+Withholding Tax,Data,EUR,2023-01-05,Withholding @ 20% on Credit Interest for Dec-2022,-2.15,
+Withholding Tax,Data,EUR,2023-03-10,TECH(US12345TECH67) Cash Dividend EUR 1.75 per Share - DE Tax,-13.13,
+Withholding Tax,Data,EUR,2023-04-07,Withholding @ 20% on Credit Interest for Mar-2023,-1.98,
+Withholding Tax,Data,EUR,2023-09-22,UTIL(DE000UTIL9999) Cash Dividend EUR 0.90 per Share - DE Tax,-6.75,
+Withholding Tax,Data,EUR,2023-12-05,BANK(GB00BANK8888) Cash Dividend EUR 3.20 per Share - DE Tax,-24,
+Withholding Tax,Data,USD,2023-02-03,Withholding @ 20% on Credit Interest for Jan-2023,-4.22,
+Withholding Tax,Data,USD,2023-11-08,Withholding @ 20% on Credit Interest for Oct-2023,-3.87,
+Withholding Tax,Data,Total,,,-56.1,
