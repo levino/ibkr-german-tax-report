@@ -7,6 +7,11 @@
   "bin": {
     "ibkr-german-tax-report": "./dist/cli.js"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && tsc -p tsconfig.cli.json",
@@ -14,7 +19,8 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "lint": "biome check .",
-    "claude": "claude-code --dangerously-skip-permissions"
+    "prepublishOnly": "npm run build",
+    "claude": "claude --dangerously-skip-permissions"
   },
   "repository": {
     "type": "git",
@@ -37,6 +43,7 @@
     "@biomejs/biome": "^2.2.4",
     "@types/node": "^24.4.0",
     "@vitest/ui": "^3.2.4",
+    "changesets": "^1.0.2",
     "typescript": "^5.9.2",
     "vite": "^7.1.5",
     "vitest": "^3.2.4"
