@@ -1,5 +1,11 @@
 # ibkr-german-tax-report
 
+## 0.0.4
+
+### Patch Changes
+
+- 1633dc4: trigger release
+
 ## 0.0.3
 
 ### Patch Changes
