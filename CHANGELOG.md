@@ -1,5 +1,11 @@
 # ibkr-german-tax-report
 
+## 0.0.5
+
+### Patch Changes
+
+- 89b7b58: trigger release
+
 ## 0.0.4
 
 ### Patch Changes
