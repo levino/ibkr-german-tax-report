@@ -26,11 +26,14 @@ export interface IBKRData {
   dividends: DividendEntry[];
   withholdingTax: WithholdingTaxEntry[];
   totalWithholdingTaxEUR?: number;
+  totalInterestEUR?: number;
   parsedReport?: ParsedReport;
 }
 
 export interface GermanTaxCalculation {
   line7: number;
+  line19: number;
   line37: number;
-  line40: number;
+  line38: number;
+  line41: number;
 }

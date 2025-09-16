@@ -24,8 +24,10 @@ describe("calculateGermanTax", () => {
         );
 
         expect(result.line7).toBe(parseFloat(expectedData["7"]));
+        expect(result.line19).toBe(parseFloat(expectedData["19"]));
         expect(result.line37).toBe(parseFloat(expectedData["37"]));
-        expect(result.line40).toBe(parseFloat(expectedData["40"]));
+        expect(result.line38).toBe(parseFloat(expectedData["38"]));
+        expect(result.line41).toBe(parseFloat(expectedData["41"]));
 
         // Verify that parsed report structure is included
         expect(parsedData.parsedReport).toBeDefined();
