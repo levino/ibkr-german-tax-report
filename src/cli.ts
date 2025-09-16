@@ -17,59 +17,54 @@ program
   .description("Generate German tax reports from IBKR trading reports")
   .version("0.0.1");
 
-program
-  .command("generate")
-  .description("Generate tax report from CSV file")
-  .action(async () => {
-    try {
-      // Find CSV files in current directory
-      const currentDir = process.cwd();
-      const files = readdirSync(currentDir);
-      const csvFiles = files.filter((file) => file.endsWith(".csv"));
+async function runGenerate() {
+  try {
+    // Find CSV files in current directory
+    const currentDir = process.cwd();
+    const files = readdirSync(currentDir);
+    const csvFiles = files.filter((file) => file.endsWith(".csv"));
 
-      if (csvFiles.length === 0) {
-        console.log(
-          chalk.red("❌ No CSV files found in the current directory."),
-        );
-        console.log(
-          chalk.gray(
-            "Please make sure you have an IBKR report CSV file in this folder.",
-          ),
-        );
-        process.exit(1);
-      }
-
-      // Interactive file selection
-      const { selectedFile } = await inquirer.prompt([
-        {
-          type: "list",
-          name: "selectedFile",
-          message: "Select an IBKR CSV report file:",
-          choices: csvFiles.map((file) => ({
-            name: `📄 ${file}`,
-            value: file,
-          })),
-        },
-      ]);
-
-      console.log(chalk.blue(`\n🔍 Processing ${selectedFile}...\n`));
-
-      // Parse and calculate
-      const reportPath = join(currentDir, selectedFile);
-      const reportContent = readFileSync(reportPath, "utf-8");
-      const parsedData = parseReport(reportContent);
-      const taxResult = calculateGermanTax(parsedData);
-
-      // Display results
-      displayResults(parsedData, taxResult);
-    } catch (error) {
-      console.error(
-        chalk.red("❌ Error:"),
-        error instanceof Error ? error.message : error,
+    if (csvFiles.length === 0) {
+      console.log(chalk.red("❌ No CSV files found in the current directory."));
+      console.log(
+        chalk.gray(
+          "Please make sure you have an IBKR report CSV file in this folder.",
+        ),
       );
       process.exit(1);
     }
-  });
+
+    // Interactive file selection
+    const { selectedFile } = await inquirer.prompt([
+      {
+        type: "list",
+        name: "selectedFile",
+        message: "Select an IBKR CSV report file:",
+        choices: csvFiles.map((file) => ({
+          name: `📄 ${file}`,
+          value: file,
+        })),
+      },
+    ]);
+
+    console.log(chalk.blue(`\n🔍 Processing ${selectedFile}...\n`));
+
+    // Parse and calculate
+    const reportPath = join(currentDir, selectedFile);
+    const reportContent = readFileSync(reportPath, "utf-8");
+    const parsedData = parseReport(reportContent);
+    const taxResult = calculateGermanTax(parsedData);
+
+    // Display results
+    displayResults(parsedData, taxResult);
+  } catch (error) {
+    console.error(
+      chalk.red("❌ Error:"),
+      error instanceof Error ? error.message : error,
+    );
+    process.exit(1);
+  }
+}
 
 function displayResults(parsedData: IBKRData, taxResult: GermanTaxCalculation) {
   // Header
@@ -176,9 +171,7 @@ function displayResults(parsedData: IBKRData, taxResult: GermanTaxCalculation) {
   );
 }
 
-// Set default command
-program.action(() => {
-  program.help();
-});
+// Set default command to generate
+program.action(runGenerate);
 
 program.parse();
