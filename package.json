@@ -1,6 +1,6 @@
 {
   "name": "ibkr-german-tax-report",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "type": "module",
   "description": "A cli tool to create tax reports for German tax declarations for IBKR trading reports.",
   "main": "dist/index.js",
