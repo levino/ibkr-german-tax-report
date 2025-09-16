@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 
-import { readdirSync, readFileSync } from "node:fs";
-import { join } from "node:path";
+import { readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { join, parse } from "node:path";
 import chalk from "chalk";
 import Table from "cli-table3";
 import { Command } from "commander";
 import inquirer from "inquirer";
 import { calculateGermanTax } from "./calculator.ts";
+import { generateHTMLReport } from "./htmlReport.ts";
 import { parseReport } from "./parser.ts";
 import type { GermanTaxCalculation, IBKRData } from "./types.ts";
 
@@ -55,8 +56,15 @@ async function runGenerate() {
     const parsedData = parseReport(reportContent);
     const taxResult = calculateGermanTax(parsedData);
 
+    // Generate HTML report
+    const htmlReport = generateHTMLReport(parsedData, taxResult, selectedFile);
+    const parsedPath = parse(selectedFile);
+    const htmlFileName = `${parsedPath.name}.html`;
+    const htmlFilePath = join(currentDir, htmlFileName);
+    writeFileSync(htmlFilePath, htmlReport, "utf-8");
+
     // Display results
-    displayResults(parsedData, taxResult);
+    displayResults(parsedData, taxResult, htmlFileName);
   } catch (error) {
     console.error(
       chalk.red("❌ Error:"),
@@ -66,7 +74,11 @@ async function runGenerate() {
   }
 }
 
-function displayResults(parsedData: IBKRData, taxResult: GermanTaxCalculation) {
+function displayResults(
+  parsedData: IBKRData,
+  taxResult: GermanTaxCalculation,
+  htmlFileName?: string,
+) {
   // Header
   console.log(chalk.green.bold("🇩🇪 German Tax Report - Anlage KAP"));
   console.log(chalk.gray("=".repeat(50)));
@@ -141,6 +153,16 @@ function displayResults(parsedData: IBKRData, taxResult: GermanTaxCalculation) {
   console.log(
     chalk.gray("Copy these values to your German tax return (Anlage KAP)."),
   );
+
+  if (htmlFileName) {
+    console.log();
+    console.log(chalk.cyan("📄 Detailed HTML report generated:"));
+    console.log(chalk.white(`   ${htmlFileName}`));
+    console.log(
+      chalk.gray("   Open this file in your browser and print to PDF."),
+    );
+  }
+
   console.log();
 
   // Important disclaimer

@@ -21,6 +21,7 @@ Dividends,Data,Total,,,150
       description:
         "XYZ(US98765XYZ43) Cash Dividend EUR 2.50 per Share (Ordinary Dividend)",
       amount: 100,
+      lineNumber: 4,
     });
 
     // Check that parsed report structure is correct
@@ -36,6 +37,7 @@ Dividends,Data,Total,,,150
       description:
         "XYZ(US98765XYZ43) Cash Dividend EUR 2.50 per Share (Ordinary Dividend)",
       amount: 100,
+      lineNumber: 4,
     });
   });
 
@@ -56,6 +58,7 @@ Withholding Tax,Data,Total,,,-22.5,
       description:
         "XYZ(US98765XYZ43) Cash Dividend EUR 2.50 per Share - DE Tax",
       amount: -15,
+      lineNumber: 2,
     });
 
     // Check that withholding tax entries are in parsed report
@@ -66,6 +69,7 @@ Withholding Tax,Data,Total,,,-22.5,
       description:
         "XYZ(US98765XYZ43) Cash Dividend EUR 2.50 per Share - DE Tax",
       amount: -15,
+      lineNumber: 2,
     });
   });
 
@@ -85,5 +89,19 @@ Account Information,Data,Account,T1234567
       generatedDate: "2024-12-31, 23:59:59 EST",
       account: "T1234567",
     });
+  });
+
+  it("should extract interest total and line number correctly", () => {
+    const reportContent = `
+Interest,Header,Currency,Date,Description,Amount,Code
+Interest,Data,EUR,2024-01-15,Credit Interest for Dec-2023,5.75,
+Interest,Data,USD,2024-01-15,Credit Interest for Dec-2023,12.50,
+Interest,Data,Total Interest in EUR,,,18.25,
+`;
+
+    const result = parseReport(reportContent);
+
+    expect(result.totalInterestEUR).toBe(18.25);
+    expect(result.totalInterestEURLineNumber).toBe(4);
   });
 });

@@ -16,6 +16,7 @@ export function parseReport(reportContent: string): IBKRData {
   const withholdingTax: WithholdingTaxEntry[] = [];
   let totalWithholdingTaxEUR: number | undefined;
   let totalInterestEUR: number | undefined;
+  let totalInterestEURLineNumber: number | undefined;
   let usdWithholdingTaxEUR: number | undefined;
 
   let currentSectionName = "";
@@ -23,7 +24,10 @@ export function parseReport(reportContent: string): IBKRData {
   let inWithholdingTaxSection = false;
   let inInterestSection = false;
 
-  for (const line of lines) {
+  for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+    const line = lines[lineIndex];
+    const csvLineNumber = lineIndex + 1; // CSV line numbers start at 1
+
     // Remove BOM and split by comma
     const cleanLine = line.replace(/^\uFEFF/, "");
     const columns = splitCSVLine(cleanLine);
@@ -60,6 +64,7 @@ export function parseReport(reportContent: string): IBKRData {
           date: data[1] || "",
           description: data[2] || "",
           amount: parseFloat(data[3]) || 0,
+          lineNumber: csvLineNumber,
         };
         dividends.push(dividend);
       }
@@ -83,6 +88,7 @@ export function parseReport(reportContent: string): IBKRData {
             date: data[1] || "",
             description: data[2] || "",
             amount: parseFloat(data[3]) || 0,
+            lineNumber: csvLineNumber,
           };
           withholdingTax.push(tax);
         }
@@ -91,6 +97,7 @@ export function parseReport(reportContent: string): IBKRData {
       // Process interest entries - only extract the total EUR amount
       if (inInterestSection && data[0] === "Total Interest in EUR") {
         totalInterestEUR = parseFloat(data[3]) || 0;
+        totalInterestEURLineNumber = csvLineNumber;
       }
     }
   }
@@ -103,6 +110,7 @@ export function parseReport(reportContent: string): IBKRData {
       date: periodEndDate,
       description: "USD Withholding Tax (value according to IBKR)",
       amount: usdWithholdingTaxEUR,
+      lineNumber: undefined, // Synthetic entry, no specific line
     };
     withholdingTax.push(usdSubtotalEntry);
   }
@@ -118,6 +126,7 @@ export function parseReport(reportContent: string): IBKRData {
     withholdingTax,
     totalWithholdingTaxEUR,
     totalInterestEUR,
+    totalInterestEURLineNumber,
     parsedReport,
   };
 }
