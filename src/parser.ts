@@ -18,6 +18,7 @@ export function parseReport(reportContent: string): IBKRData {
   let totalInterestEUR: number | undefined;
   let totalInterestEURLineNumber: number | undefined;
   let usdWithholdingTaxEUR: number | undefined;
+  let usdWithholdingTaxEURLineNumber: number | undefined;
 
   let currentSectionName = "";
   let inDividendsSection = false;
@@ -76,6 +77,7 @@ export function parseReport(reportContent: string): IBKRData {
         } else if (data[0] === "Total in EUR" && data[3]) {
           // This is the USD withholding tax subtotal converted to EUR
           usdWithholdingTaxEUR = parseFloat(data[3]) || 0;
+          usdWithholdingTaxEURLineNumber = csvLineNumber;
         } else if (
           data[0] !== "Total" &&
           data[0] !== "Total in EUR" &&
@@ -110,7 +112,7 @@ export function parseReport(reportContent: string): IBKRData {
       date: periodEndDate,
       description: "USD Withholding Tax (value according to IBKR)",
       amount: usdWithholdingTaxEUR,
-      lineNumber: undefined, // Synthetic entry, no specific line
+      lineNumber: usdWithholdingTaxEURLineNumber,
     };
     withholdingTax.push(usdSubtotalEntry);
   }

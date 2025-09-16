@@ -72,23 +72,16 @@ function groupTransactionsByLine(data: IBKRData): TransactionsByLine {
     tax.description.includes("- DE Tax"),
   );
 
-  // Line 41: Other withholding tax
-  const hasUsdSubtotal = data.withholdingTax.some(
+  // Line 41: Other withholding tax (includes both EUR entries and USD subtotal)
+  const line41 = data.withholdingTax.filter(
     (tax) =>
-      tax.description === "USD Withholding Tax (value according to IBKR)",
+      // Include USD subtotal entry if it exists
+      tax.description === "USD Withholding Tax (value according to IBKR)" ||
+      // Include EUR withholding tax entries that are NOT German tax
+      (!tax.description.includes("- DE Tax") &&
+        tax.currency === "EUR" &&
+        tax.description.includes("Credit Interest")),
   );
-
-  const line41 = hasUsdSubtotal
-    ? data.withholdingTax.filter(
-        (tax) =>
-          tax.description === "USD Withholding Tax (value according to IBKR)",
-      )
-    : data.withholdingTax.filter(
-        (tax) =>
-          !tax.description.includes("- DE Tax") &&
-          tax.currency === "EUR" &&
-          tax.description.includes("Credit Interest"),
-      );
 
   return { line7, line19, line37_38, line41 };
 }
@@ -221,6 +214,20 @@ function generateTransactionDetails(transactions: TransactionsByLine): string {
         </tr>`;
     }
 
+    // Add sum row
+    const line7Total = transactions.line7.reduce(
+      (sum, dividend) => sum + dividend.amount,
+      0,
+    );
+    html += `
+        <tr class="sum-row">
+          <td class="line-number">—</td>
+          <td></td>
+          <td class="description"><strong>Total Line 7</strong></td>
+          <td><strong>EUR</strong></td>
+          <td class="amount positive total"><strong>€${line7Total.toFixed(2)}</strong></td>
+        </tr>`;
+
     html += "</tbody></table></div>";
   }
 
@@ -252,6 +259,19 @@ function generateTransactionDetails(transactions: TransactionsByLine): string {
           <td class="amount neutral">€${interest.amount.toFixed(2)}</td>
         </tr>`;
     }
+
+    // Add sum row
+    const line19Total = transactions.line19.reduce(
+      (sum, interest) => sum + interest.amount,
+      0,
+    );
+    html += `
+        <tr class="sum-row">
+          <td class="line-number">—</td>
+          <td class="description"><strong>Total Line 19</strong></td>
+          <td><strong>EUR</strong></td>
+          <td class="amount neutral total"><strong>€${line19Total.toFixed(2)}</strong></td>
+        </tr>`;
 
     html += "</tbody></table></div>";
   }
@@ -287,6 +307,20 @@ function generateTransactionDetails(transactions: TransactionsByLine): string {
         </tr>`;
     }
 
+    // Add sum row
+    const line37_38Total = transactions.line37_38.reduce(
+      (sum, tax) => sum + tax.amount,
+      0,
+    );
+    html += `
+        <tr class="sum-row">
+          <td class="line-number">—</td>
+          <td></td>
+          <td class="description"><strong>Total Lines 37+38</strong></td>
+          <td><strong>EUR</strong></td>
+          <td class="amount tax total"><strong>€${line37_38Total.toFixed(2)}</strong></td>
+        </tr>`;
+
     html += "</tbody></table></div>";
   }
 
@@ -317,6 +351,20 @@ function generateTransactionDetails(transactions: TransactionsByLine): string {
           <td class="amount foreign-tax">€${tax.amount.toFixed(2)}</td>
         </tr>`;
     }
+
+    // Add sum row
+    const line41Total = transactions.line41.reduce(
+      (sum, tax) => sum + tax.amount,
+      0,
+    );
+    html += `
+        <tr class="sum-row">
+          <td class="line-number">—</td>
+          <td></td>
+          <td class="description"><strong>Total Line 41</strong></td>
+          <td><strong>EUR</strong></td>
+          <td class="amount foreign-tax total"><strong>€${line41Total.toFixed(2)}</strong></td>
+        </tr>`;
 
     html += "</tbody></table></div>";
   }
@@ -457,6 +505,15 @@ function getCSS(): string {
         background-color: #f5f5f5;
     }
 
+    .sum-row {
+        border-top: 2px solid #34495e !important;
+        background-color: #ecf0f1 !important;
+    }
+
+    .sum-row:hover {
+        background-color: #d5dbdb !important;
+    }
+
     .line-number {
         font-weight: bold;
         background-color: #ecf0f1;
@@ -481,6 +538,10 @@ function getCSS(): string {
     .amount.neutral { color: #f39c12; }
     .amount.tax { color: #3498db; }
     .amount.foreign-tax { color: #9b59b6; }
+    .amount.total {
+        font-size: 1.1em;
+        border-top: 1px solid #34495e;
+    }
 
     .transaction-details h2 {
         color: #2c3e50;

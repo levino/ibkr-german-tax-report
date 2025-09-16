@@ -48,39 +48,22 @@ function calculateLine37And38(data: IBKRData): {
 }
 
 function calculateLine41(data: IBKRData): number {
-  // Line 41: Other withholding tax (mostly credit interest withholding)
+  // Line 41: Other withholding tax (includes both EUR entries and USD subtotal)
   // Note: Tax withheld is negative, so multiply by -1 to get positive amount
 
-  // Check if we have USD subtotal entry (from reports with "Total in EUR")
-  const hasUsdSubtotal = data.withholdingTax.some(
-    (tax) =>
-      tax.description === "USD Withholding Tax (value according to IBKR)",
-  );
-
-  let result: number;
-  if (hasUsdSubtotal) {
-    // Include only USD subtotal (already converted to EUR by IBKR)
-    result =
-      -1 *
-      data.withholdingTax
-        .filter(
-          (tax) =>
-            tax.description === "USD Withholding Tax (value according to IBKR)",
-        )
-        .reduce((sum, tax) => sum + tax.amount, 0);
-  } else {
-    // Fallback to EUR interest withholding tax for files without USD subtotal
-    result =
-      -1 *
-      data.withholdingTax
-        .filter(
-          (tax) =>
-            !tax.description.includes("- DE Tax") &&
+  const result =
+    -1 *
+    data.withholdingTax
+      .filter(
+        (tax) =>
+          // Include USD subtotal entry if it exists
+          tax.description === "USD Withholding Tax (value according to IBKR)" ||
+          // Include EUR withholding tax entries that are NOT German tax
+          (!tax.description.includes("- DE Tax") &&
             tax.currency === "EUR" &&
-            tax.description.includes("Credit Interest"),
-        )
-        .reduce((sum, tax) => sum + tax.amount, 0);
-  }
+            tax.description.includes("Credit Interest")),
+      )
+      .reduce((sum, tax) => sum + tax.amount, 0);
 
   return parseFloat(result.toFixed(2));
 }
