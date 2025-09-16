@@ -73,7 +73,7 @@ program
 
 function displayResults(parsedData: IBKRData, taxResult: GermanTaxCalculation) {
   // Header
-  console.log(chalk.green.bold("🇩🇪 German Tax Report"));
+  console.log(chalk.green.bold("🇩🇪 German Tax Report - Anlage KAP"));
   console.log(chalk.gray("=".repeat(50)));
 
   // Account info
@@ -104,18 +104,28 @@ function displayResults(parsedData: IBKRData, taxResult: GermanTaxCalculation) {
   table.push(
     [
       "7",
-      "Dividends subjected to German withholding tax",
+      "Kapitalerträge, bei denen Steuer einbehalten wurde",
       chalk.green.bold(`€${taxResult.line7.toFixed(2)}`),
     ],
     [
+      "19",
+      "Andere Kapitalerträge ohne Steuerabzug",
+      chalk.yellow.bold(`€${taxResult.line19.toFixed(2)}`),
+    ],
+    [
       "37",
-      "German withholding tax on dividends",
+      "Einbehaltene Kapitalertragsteuer",
       chalk.blue.bold(`€${taxResult.line37.toFixed(2)}`),
     ],
     [
-      "40",
-      "Other withholding tax (credit interest)",
-      chalk.magenta.bold(`€${taxResult.line40.toFixed(2)}`),
+      "38",
+      "Darauf entfallender Solidaritätszuschlag",
+      chalk.cyan.bold(`€${taxResult.line38.toFixed(2)}`),
+    ],
+    [
+      "41",
+      "Ausländische Quellensteuer",
+      chalk.magenta.bold(`€${taxResult.line41.toFixed(2)}`),
     ],
   );
 
@@ -135,6 +145,34 @@ function displayResults(parsedData: IBKRData, taxResult: GermanTaxCalculation) {
   console.log(chalk.green("✅ Report generated successfully!"));
   console.log(
     chalk.gray("Copy these values to your German tax return (Anlage KAP)."),
+  );
+  console.log();
+
+  // Important disclaimer
+  console.log(chalk.red.bold("⚠️  IMPORTANT DISCLAIMER"));
+  console.log(chalk.red("═".repeat(50)));
+  console.log(
+    chalk.yellow(
+      "This tool provides calculations for informational purposes only.",
+    ),
+  );
+  console.log(chalk.yellow("• This is NOT tax advice"));
+  console.log(chalk.yellow("• No warranty or guarantee is provided"));
+  console.log(
+    chalk.yellow("• You are responsible for verifying all calculations"),
+  );
+  console.log(
+    chalk.yellow("• Consult a qualified tax professional for guidance"),
+  );
+  console.log();
+  console.log(
+    chalk.cyan("📖 Please read the README and review the source code:"),
+  );
+  console.log(
+    chalk.cyan("   https://github.com/levino/ibkr-german-tax-report"),
+  );
+  console.log(
+    chalk.gray("   Understand how calculations work before using results."),
   );
 }
 
