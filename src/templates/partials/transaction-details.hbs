@@ -1,0 +1,52 @@
+<section class="transaction-details">
+    <h2>Transaction Details</h2>
+
+    {{#if transactions.line7.length}}
+    {{> transaction-section
+        title="Line 7: Dividends Subject to German Tax"
+        transactions=transactions.line7
+        columns=(array "CSV Line" "Date" "Description" "Currency" "Amount")
+        amountClass="positive"
+        totalLabel="Total Line 7"
+    }}
+    {{/if}}
+
+    {{#if transactions.line19.length}}
+    <div class="line-section">
+        <h3>Line 19: Interest Income</h3>
+        <div class="calculation-note">
+            This amount comes from IBKR's "Total Interest in EUR" summary line
+        </div>
+        {{> transaction-table-interest
+            transactions=transactions.line19
+            amountClass="neutral"
+            totalLabel="Total Line 19"
+        }}
+    </div>
+    {{/if}}
+
+    {{#if transactions.line37_38.length}}
+    <div class="line-section">
+        <h3>Lines 37 & 38: German Tax Withheld</h3>
+        <div class="calculation-note">
+            Total German tax is split into Abgeltungssteuer (25%, Line 37) and Solidaritätszuschlag (5.5% of Abgeltungssteuer, Line 38)
+        </div>
+        {{> transaction-table-withholding
+            transactions=transactions.line37_38
+            amountClass="tax"
+            totalLabel="Total Lines 37+38"
+        }}
+    </div>
+    {{/if}}
+
+    {{#if transactions.line41.length}}
+    <div class="line-section">
+        <h3>Line 41: Foreign Withholding Tax</h3>
+        {{> transaction-table-withholding
+            transactions=transactions.line41
+            amountClass="foreign-tax"
+            totalLabel="Total Line 41"
+        }}
+    </div>
+    {{/if}}
+</section>
