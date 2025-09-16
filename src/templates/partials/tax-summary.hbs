@@ -1,0 +1,42 @@
+<section class="tax-summary">
+    <h2>Tax Summary</h2>
+    <div class="summary-note">
+        Copy these values to your German tax return (Anlage KAP):
+    </div>
+    <table class="summary-table">
+        <thead>
+            <tr>
+                <th>Line</th>
+                <th>Description</th>
+                <th>Amount (EUR)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="line-7">
+                <td class="line-number">7</td>
+                <td>Kapitalerträge, bei denen Steuer einbehalten wurde</td>
+                <td class="amount positive">{{formatCurrency taxResult.line7}}</td>
+            </tr>
+            <tr class="line-19">
+                <td class="line-number">19</td>
+                <td>Andere Kapitalerträge ohne Steuerabzug</td>
+                <td class="amount neutral">{{formatCurrency taxResult.line19}}</td>
+            </tr>
+            <tr class="line-37">
+                <td class="line-number">37</td>
+                <td>Einbehaltene Kapitalertragsteuer</td>
+                <td class="amount tax">{{formatCurrency taxResult.line37}}</td>
+            </tr>
+            <tr class="line-38">
+                <td class="line-number">38</td>
+                <td>Darauf entfallender Solidaritätszuschlag</td>
+                <td class="amount tax">{{formatCurrency taxResult.line38}}</td>
+            </tr>
+            <tr class="line-41">
+                <td class="line-number">41</td>
+                <td>Ausländische Quellensteuer</td>
+                <td class="amount foreign-tax">{{formatCurrency taxResult.line41}}</td>
+            </tr>
+        </tbody>
+    </table>
+</section>

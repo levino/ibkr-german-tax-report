@@ -1,0 +1,258 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #fff;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.header h1 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 2.2em;
+    font-weight: 600;
+}
+
+.report-info {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    display: inline-block;
+    text-align: left;
+    min-width: 400px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.info-row:last-child {
+    margin-bottom: 0;
+}
+
+.label {
+    font-weight: 600;
+    color: #555;
+}
+
+.value {
+    color: #333;
+    margin-left: 20px;
+}
+
+.tax-summary {
+    margin-bottom: 40px;
+}
+
+.tax-summary h2 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.8em;
+}
+
+.summary-note {
+    background-color: #e8f4fd;
+    padding: 10px 15px;
+    border-left: 4px solid #3498db;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.summary-table, .transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.summary-table th, .transaction-table th {
+    background-color: #3498db;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.summary-table td, .transaction-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.summary-table tbody tr:hover, .transaction-table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+.sum-row {
+    border-top: 2px solid #34495e !important;
+    background-color: #ecf0f1 !important;
+}
+
+.sum-row:hover {
+    background-color: #d5dbdb !important;
+}
+
+.line-number {
+    font-weight: bold;
+    background-color: #ecf0f1;
+    text-align: center;
+    width: 60px;
+    font-family: 'Courier New', monospace;
+    color: #7f8c8d;
+}
+
+.description {
+    max-width: 300px;
+    word-wrap: break-word;
+}
+
+.amount {
+    text-align: right;
+    font-weight: 600;
+    font-family: 'Courier New', monospace;
+}
+
+.amount.positive { color: #27ae60; }
+.amount.neutral { color: #f39c12; }
+.amount.tax { color: #3498db; }
+.amount.foreign-tax { color: #9b59b6; }
+.amount.total {
+    font-size: 1.1em;
+    border-top: 1px solid #34495e;
+}
+
+.transaction-details h2 {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 1.8em;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.line-section {
+    margin-bottom: 35px;
+}
+
+.line-section h3 {
+    color: #34495e;
+    margin-bottom: 15px;
+    font-size: 1.3em;
+    background-color: #ecf0f1;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+.calculation-note {
+    background-color: #fff3cd;
+    border: 1px solid #ffeaa7;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-style: italic;
+    color: #856404;
+}
+
+.footer {
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 2px solid #e0e0e0;
+}
+
+.disclaimer {
+    background-color: #fee;
+    border: 2px solid #e74c3c;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+}
+
+.disclaimer h3 {
+    color: #c0392b;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.disclaimer ul {
+    list-style-position: inside;
+    color: #721c24;
+}
+
+.disclaimer li {
+    margin-bottom: 8px;
+}
+
+.source-info {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.source-info a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.source-info a:hover {
+    text-decoration: underline;
+}
+
+.generation-info {
+    text-align: center;
+    color: #7f8c8d;
+    font-size: 0.9em;
+    font-style: italic;
+}
+
+@media print {
+    .container {
+        max-width: none;
+        padding: 10px;
+    }
+
+    body {
+        font-size: 12px;
+    }
+
+    .header h1 {
+        font-size: 1.8em;
+    }
+
+    .summary-table, .transaction-table {
+        font-size: 11px;
+    }
+
+    .line-section {
+        page-break-inside: avoid;
+        margin-bottom: 20px;
+    }
+
+    .disclaimer {
+        page-break-inside: avoid;
+    }
+}
+
+@page {
+    margin: 1in;
+}

@@ -2,13 +2,21 @@ import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { calculateGermanTax } from "./calculator";
+import { generateHTMLReport } from "./htmlReport";
 import { parseReport } from "./parser";
 
 describe("calculateGermanTax", () => {
   const testCases = getAllTestCases();
 
   testCases.forEach(
-    ({ reportPath, expectedPath, parsedJsonPath, baseName, folder }) => {
+    ({
+      reportPath,
+      expectedPath,
+      parsedJsonPath,
+      htmlPath,
+      baseName,
+      folder,
+    }) => {
       it(`should calculate correctly for ${baseName} (${folder})`, () => {
         const expectedData = JSON.parse(readFileSync(expectedPath, "utf-8"));
 
@@ -22,6 +30,14 @@ describe("calculateGermanTax", () => {
           parsedJsonPath,
           JSON.stringify(parsedData.parsedReport, null, 2),
         );
+
+        // Generate HTML report for validation
+        const htmlReport = generateHTMLReport(
+          parsedData,
+          result,
+          `${baseName}.csv`,
+        );
+        writeFileSync(htmlPath, htmlReport, "utf-8");
 
         expect(result.line7).toBe(parseFloat(expectedData["7"]));
         expect(result.line19).toBe(parseFloat(expectedData["19"]));
@@ -45,6 +61,7 @@ function getAllTestCases() {
     reportPath: string;
     expectedPath: string;
     parsedJsonPath: string;
+    htmlPath: string;
     baseName: string;
     folder: string;
   }[] = [];
@@ -63,6 +80,7 @@ function getAllTestCases() {
           reportPath: join(realReportsDir, csvFile),
           expectedPath: join(realReportsDir, expectedFile),
           parsedJsonPath: join(realReportsDir, `${baseName}.parsed.json`),
+          htmlPath: join(realReportsDir, `${baseName}.html`),
           baseName,
           folder: "real-reports",
         });
@@ -86,6 +104,7 @@ function getAllTestCases() {
         reportPath: join(testReportsDir, csvFile),
         expectedPath: join(testReportsDir, expectedFile),
         parsedJsonPath: join(testReportsDir, `${baseName}.parsed.json`),
+        htmlPath: join(testReportsDir, `${baseName}.html`),
         baseName,
         folder: "test-reports",
       });

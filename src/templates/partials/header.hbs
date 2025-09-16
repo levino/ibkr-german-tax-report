@@ -1,0 +1,31 @@
+<header class="header">
+    <h1>German Tax Report - Anlage KAP</h1>
+    <div class="report-info">
+        <div class="info-row">
+            <span class="label">Source File:</span>
+            <span class="value">{{fileName}}</span>
+        </div>
+        {{#if metadata.account}}
+        <div class="info-row">
+            <span class="label">Account:</span>
+            <span class="value">{{metadata.account}}</span>
+        </div>
+        {{/if}}
+        {{#if metadata.period}}
+        <div class="info-row">
+            <span class="label">Period:</span>
+            <span class="value">{{metadata.period}}</span>
+        </div>
+        {{/if}}
+        {{#if metadata.generatedDate}}
+        <div class="info-row">
+            <span class="label">IBKR Report Generated:</span>
+            <span class="value">{{metadata.generatedDate}}</span>
+        </div>
+        {{/if}}
+        <div class="info-row">
+            <span class="label">Tax Report Generated:</span>
+            <span class="value">{{reportDate}}</span>
+        </div>
+    </div>
+</header>

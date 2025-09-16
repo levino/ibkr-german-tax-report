@@ -149,3 +149,7 @@ real-reports/
 
 # Generated parsed JSON files (artifacts from tests)
 *.parsed.json
+
+# Generated HTML reports (artifacts from tests and CLI usage)
+test-reports/*.html
+*.html

@@ -3,6 +3,7 @@ export interface DividendEntry {
   date: string;
   description: string;
   amount: number;
+  lineNumber?: number;
 }
 
 export interface WithholdingTaxEntry {
@@ -10,6 +11,7 @@ export interface WithholdingTaxEntry {
   date: string;
   description: string;
   amount: number;
+  lineNumber?: number;
 }
 
 export interface ParsedReport {
@@ -27,6 +29,7 @@ export interface IBKRData {
   withholdingTax: WithholdingTaxEntry[];
   totalWithholdingTaxEUR?: number;
   totalInterestEUR?: number;
+  totalInterestEURLineNumber?: number;
   parsedReport?: ParsedReport;
 }
 
