@@ -45,9 +45,9 @@
     "@changesets/cli": "^2.29.7",
     "@types/handlebars": "^4.0.40",
     "@types/node": "^24.4.0",
-    "@vitest/ui": "^3.2.4",
+    "@vitest/ui": "^4.1.11",
     "typescript": "^5.9.2",
     "vite": "^7.1.5",
-    "vitest": "^4.0.0"
+    "vitest": "^4.1.11"
   }
 }
