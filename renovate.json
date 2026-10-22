@@ -5,6 +5,9 @@
     "config:recommended",
     ":disableDependencyDashboard"
   ],
+  "vulnerabilityAlerts": {
+    "minimumReleaseAge": null
+  },
   "timezone": "Europe/Berlin",
   "labels": [
     "dependencies"
@@ -44,6 +47,21 @@
         "major"
       ],
       "enabled": false
+    },
+    {
+      "description": "Lieferketten-Schutz: Actions- und npm-Releases erst nach 3 Tagen übernehmen (kompromittierte Releases werden meist in Stunden bis Tagen zurückgezogen). Basis-Image-Digests und Sicherheitsfixes kommen sofort.",
+      "matchManagers": [
+        "github-actions",
+        "npm"
+      ],
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "description": "Biome-Updates einzeln, damit neue Regeln nicht alle anderen Updates blockieren.",
+      "matchPackageNames": [
+        "@biomejs/biome"
+      ],
+      "groupName": "biome"
     }
   ]
 }
