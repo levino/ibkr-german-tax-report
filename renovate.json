@@ -17,9 +17,10 @@
   "prConcurrentLimit": 20,
   "automerge": true,
   "platformAutomerge": true,
+  "rebaseWhen": "conflicted",
   "packageRules": [
     {
-      "description": "Basis-Images und Actions per Digest pinnen: nur so sieht Renovate, dass z. B. node:26-alpine mit einem Node-Sicherheitsfix neu gebaut wurde. Diese Updates kommen sofort, nicht nach Zeitplan.",
+      "description": "Basis-Images und Actions per Digest pinnen: nur so sieht Renovate, dass z. B. node:26-alpine mit einem Node-Sicherheitsfix neu gebaut wurde. Sie laufen im gebündelten Routine-PR mit.",
       "matchManagers": [
         "dockerfile",
         "devcontainer",
@@ -28,17 +29,18 @@
       "pinDigests": true
     },
     {
-      "description": "Routine-npm-Updates als ein Sammel-PR pro Woche. Sicherheitsfixes ignorieren den Zeitplan.",
-      "matchManagers": [
-        "npm"
-      ],
+      "description": "Routine-Updates gebündelt in einem PR, montags und donnerstags (spart CI-Läufe). Sicherheitsfixes kommen weiter sofort.",
       "matchUpdateTypes": [
-        "minor",
-        "patch"
+        "digest",
+        "pin",
+        "pinDigest",
+        "patch",
+        "minor"
       ],
-      "groupName": "npm minor-and-patch",
+      "groupName": "Routine-Updates",
       "schedule": [
-        "before 6am on monday"
+        "before 6am on monday",
+        "before 6am on thursday"
       ]
     },
     {
@@ -61,7 +63,11 @@
       "matchPackageNames": [
         "@biomejs/biome"
       ],
-      "groupName": "biome"
+      "groupName": "biome",
+      "schedule": [
+        "before 6am on monday",
+        "before 6am on thursday"
+      ]
     }
   ]
 }
